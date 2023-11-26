@@ -296,14 +296,69 @@ class _FicheSuivi extends State<FicheSuivi> {
                       style:const ButtonStyle(
                         alignment: Alignment.center,
                         backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 230, 151, 146))), 
-                      child: const Text("clear", style: TextStyle(
+                      child: const Text("clean", style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
-                      ),),)
+                      ),),),
+                      TextButton(onPressed: (){}, 
+                        style: const ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 138, 241, 141))
+                        ),
+                        child: const Text("sauvegarder",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17
+                          ),
+                        ))
                     ],
                   )
                 ],
               ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      const SizedBox(height: 20,),
+                  const Text("Signature du délgué"),
+                  const SizedBox(height: 7,),
+                  Signature(
+                    controller: signatureController ,
+                    width: 250,
+                    height: 200,
+                    backgroundColor:const Color.fromARGB(255, 202, 215, 221),
+                  ),
+                    ],
+                  ),
+                  const SizedBox(width: 10,),
+                  Column(
+                    children: [
+                      TextButton(onPressed: (){
+
+                      }, 
+                      style:const ButtonStyle(
+                        alignment: Alignment.center,
+                        backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 230, 151, 146))), 
+                      child: const Text("clean", style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                      ),),),
+                      TextButton(onPressed: (){}, 
+                        style: const ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 138, 241, 141))
+                        ),
+                        child: const Text("sauvegarder",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17
+                          ),
+                        ))
+                    ],
+                  )
+                ],
+              ),
+
 
               Center(
                 child: ElevatedButton(
