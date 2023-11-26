@@ -2,7 +2,8 @@ import 'package:firstapp/fiche_suivi.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firstapp/inscription_chef.dart';
+import 'package:firstapp/connexion_delegué.dart';
+
 
 class AccueilPage extends StatefulWidget {
   const AccueilPage({super.key});
@@ -83,7 +84,7 @@ class _AccueilPage extends State<AccueilPage> {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => const InscriptionChef()));
+                            builder: (_) => const ConnexionDelegue()));
                       },
                       style: const ButtonStyle(
                         fixedSize: MaterialStatePropertyAll(Size(250, 40)),

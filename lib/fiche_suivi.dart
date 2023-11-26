@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -20,11 +22,17 @@ class _FicheSuivi extends State<FicheSuivi> {
   TextEditingController contenu = TextEditingController();
   TextEditingController sal = TextEditingController();
   TextEditingController title = TextEditingController();
-  SignatureController signatureController=SignatureController(
-    penStrokeWidth: 3,
-    penColor: Colors.black,
-    exportBackgroundColor:const Color.fromARGB(255, 205, 211, 216)
-  );
+  SignatureController signatureControllerP = SignatureController(
+      penStrokeWidth: 3,
+      penColor: Colors.black,
+      exportBackgroundColor: const Color.fromARGB(255, 205, 211, 216));
+  SignatureController signatureControllerD = SignatureController(
+      penStrokeWidth: 3,
+      penColor: Colors.black,
+      exportBackgroundColor: const Color.fromARGB(255, 205, 211, 216));
+  Uint8List? signD;
+  Uint8List? signP;
+  String data = "";
 
   String cours = "";
   String professeur = "";
@@ -43,13 +51,16 @@ class _FicheSuivi extends State<FicheSuivi> {
       home: Scaffold(
         appBar: AppBar(actions: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: const [
               Icon(
                 Icons.arrow_back,
               ),
               Center(
-                child: Text("FICHE DE SUIVI"),
+                child: Text(
+                  "FICHE DE SUIVI",
+                  textAlign: TextAlign.center,
+                ),
               )
             ],
           ),
@@ -79,7 +90,7 @@ class _FicheSuivi extends State<FicheSuivi> {
               TextField(
                 controller: prof,
                 decoration: const InputDecoration(
-                  labelText: "Nom du professeur",
+                  label: Text("Nom du professeur"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
@@ -106,7 +117,9 @@ class _FicheSuivi extends State<FicheSuivi> {
                 ),
               ),
               //const TextField(),
-              const SizedBox(height: 4,),
+              const SizedBox(
+                height: 4,
+              ),
               TextField(
                 controller: sal,
                 decoration: const InputDecoration(
@@ -157,10 +170,18 @@ class _FicheSuivi extends State<FicheSuivi> {
                         context: context,
                         initialTime: TimeOfDay.now(),
                       ).then((value) {
-                        if (value == null) {
+                        if (value == null ||
+                            value.hour < timedebut.hour ||
+                            (value.hour == timedebut.hour &&
+                                value.minute < timedebut.minute)) {
                           timefin = TimeOfDay.now();
+                          setState(() {
+                            data =
+                                "l'heure de fin est superieure a l'heure de debut";
+                          });
                         } else {
                           setState(() {
+                            data = "";
                             timefin = value;
                           });
                         }
@@ -170,11 +191,17 @@ class _FicheSuivi extends State<FicheSuivi> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 20,
+                child: Text(data),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("${date.year}-${date.month}-${date.day}"),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         showDatePicker(
@@ -195,7 +222,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       child: const Text('Date'))
                 ],
               ),
-              
+
               Row(
                 children: [
                   const Text("Semestre"),
@@ -220,7 +247,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                           semestre = value;
                         });
                       }),
-                      const Text("sem 2"),
+                  const Text("sem 2"),
                 ],
               ),
               Row(
@@ -271,46 +298,72 @@ class _FicheSuivi extends State<FicheSuivi> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   Column(
                     children: [
-                      const SizedBox(height: 20,),
-                  const Text("Signature du professeur"),
-                  const SizedBox(height: 7,),
-                  Signature(
-                    controller: signatureController ,
-                    width: 250,
-                    height: 200,
-                    backgroundColor:const Color.fromARGB(255, 202, 215, 221),
-                  ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text("Signature du professeur"),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Signature(
+                        controller: signatureControllerP,
+                        width: 250,
+                        height: 200,
+                        backgroundColor:
+                            const Color.fromARGB(255, 202, 215, 221),
+                      ),
                     ],
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Column(
                     children: [
-                      TextButton(onPressed: (){
-
-                      }, 
-                      style:const ButtonStyle(
-                        alignment: Alignment.center,
-                        backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 230, 151, 146))), 
-                      child: const Text("clean", style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                      ),),),
-                      TextButton(onPressed: (){}, 
+                      TextButton(
+                        onPressed: () {
+                          signatureControllerP.clear();
+                        },
                         style: const ButtonStyle(
-                          alignment: Alignment.center,
-                          backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 138, 241, 141))
-                        ),
-                        child: const Text("sauvegarder",
+                            alignment: Alignment.center,
+                            shape:
+                                MaterialStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                            )),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 230, 151, 146))),
+                        child: const Text(
+                          "clean",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 17
+                            fontSize: 17,
                           ),
-                        ))
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () async {
+                            signP = await signatureControllerD.toPngBytes();
+                          },
+                          style: const ButtonStyle(
+                              alignment: Alignment.center,
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              )),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 138, 241, 141))),
+                          child: const Text(
+                            "enreg",
+                            style: TextStyle(color: Colors.black, fontSize: 17),
+                          ))
                     ],
                   )
                 ],
@@ -319,46 +372,69 @@ class _FicheSuivi extends State<FicheSuivi> {
                 children: [
                   Column(
                     children: [
-                      const SizedBox(height: 20,),
-                  const Text("Signature du délgué"),
-                  const SizedBox(height: 7,),
-                  Signature(
-                    controller: signatureController ,
-                    width: 250,
-                    height: 200,
-                    backgroundColor:const Color.fromARGB(255, 202, 215, 221),
-                  ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text("Signature du délgué"),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Signature(
+                        controller: signatureControllerD,
+                        width: 250,
+                        height: 200,
+                        backgroundColor:
+                            const Color.fromARGB(255, 202, 215, 221),
+                      ),
                     ],
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Column(
                     children: [
-                      TextButton(onPressed: (){
-
-                      }, 
-                      style:const ButtonStyle(
-                        alignment: Alignment.center,
-                        backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 230, 151, 146))), 
-                      child: const Text("clean", style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                      ),),),
-                      TextButton(onPressed: (){}, 
+                      TextButton(
+                        onPressed: () async {
+                          signatureControllerD.clear();
+                        },
                         style: const ButtonStyle(
-                          alignment: Alignment.center,
-                          backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 138, 241, 141))
-                        ),
-                        child: const Text("sauvegarder",
+                            alignment: Alignment.center,
+                            shape:
+                                MaterialStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                            )),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 230, 151, 146))),
+                        child: const Text(
+                          "clean",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 17
+                            fontSize: 17,
                           ),
-                        ))
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () async {
+                            signD = await signatureControllerD.toPngBytes();
+                          },
+                          style: const ButtonStyle(
+                              alignment: Alignment.center,
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              )),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 138, 241, 141))),
+                          child: const Text(
+                            "enreg",
+                            style: TextStyle(color: Colors.black, fontSize: 17),
+                          ))
                     ],
                   )
                 ],
               ),
-
 
               Center(
                 child: ElevatedButton(
