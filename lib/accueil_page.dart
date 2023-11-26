@@ -42,7 +42,7 @@ class _AccueilPage extends State<AccueilPage> {
                       fontFamily: "Times New Roman"),
                   textAlign: TextAlign.center,
                 ),
-                Image.asset("assets/images/logouniv.jpg",),
+                //Image.asset("assets/images/logouniv.jpg",),
                 const SizedBox(
                   height: 130,
                 ),
@@ -83,8 +83,7 @@ class _AccueilPage extends State<AccueilPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => const ConnexionDelegue()));
+                        
                       },
                       style: const ButtonStyle(
                         fixedSize: MaterialStatePropertyAll(Size(250, 40)),
@@ -103,7 +102,10 @@ class _AccueilPage extends State<AccueilPage> {
                       width: 10,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const ConnexionDelegue()));
+                      },
                       style: const ButtonStyle(
                         fixedSize: MaterialStatePropertyAll(Size(250, 40)),
                         
