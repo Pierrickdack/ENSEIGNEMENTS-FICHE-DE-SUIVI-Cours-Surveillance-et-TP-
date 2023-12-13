@@ -68,15 +68,6 @@ class _FicheSuivi extends State<FicheSuivi> {
           ),
           title: const Text("FICHE DE SUIVI"),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.upload,
-                color: Colors.white,
-              ),
-            )
-          ],
         ),
         body: Container(
           padding: const EdgeInsets.all(25.0),

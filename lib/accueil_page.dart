@@ -1,5 +1,7 @@
+import 'package:firstapp/fiche_suivi.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firstapp/connexion_delegué.dart';
 
 class AccueilPage extends StatefulWidget {
@@ -22,9 +24,8 @@ class _AccueilPage extends State<AccueilPage> {
           height: double.infinity,
           child: Container(
             padding: const EdgeInsets.all(30),
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 2, 53, 95),
-            ),
+            decoration:
+                const BoxDecoration(color: Color.fromARGB(255, 2, 53, 95)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -82,9 +83,7 @@ class _AccueilPage extends State<AccueilPage> {
                     ElevatedButton(
                       onPressed: () {},
                       style: const ButtonStyle(
-                        fixedSize: MaterialStatePropertyAll(
-                          Size(250, 40),
-                        ),
+                        fixedSize: MaterialStatePropertyAll(Size(250, 40)),
                         backgroundColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 203, 97, 129)),
                       ),
@@ -108,9 +107,7 @@ class _AccueilPage extends State<AccueilPage> {
                         );
                       },
                       style: const ButtonStyle(
-                        fixedSize: MaterialStatePropertyAll(
-                          Size(250, 40),
-                        ),
+                        fixedSize: MaterialStatePropertyAll(Size(250, 40)),
                         backgroundColor: MaterialStatePropertyAll(
                           Color.fromARGB(255, 203, 97, 129),
                         ),
