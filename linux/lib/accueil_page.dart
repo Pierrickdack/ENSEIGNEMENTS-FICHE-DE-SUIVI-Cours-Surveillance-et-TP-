@@ -1,9 +1,6 @@
-import 'package:firstapp/fiche_suivi.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:firstapp/connexion_delegué.dart';
-
 
 class AccueilPage extends StatefulWidget {
   const AccueilPage({super.key});
@@ -18,18 +15,16 @@ class _AccueilPage extends State<AccueilPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-            body: SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            "assets/images/imagefond2.jpg",
-            fit: BoxFit.fill,
-          ),
-          Column(
+      debugShowCheckedModeBanner: true,
+      home: Scaffold(
+        body: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Container(
+            padding: const EdgeInsets.all(30),
+            decoration:
+                const BoxDecoration(color: Color.fromARGB(255, 2, 53, 95)),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,7 +32,7 @@ class _AccueilPage extends State<AccueilPage> {
                 const Text(
                   "BIENVENUE SUR NOTRE PLATE FORME DE GESTION DES ENSEIGNEMENTS",
                   style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 28,
                       color: Colors.white,
                       fontFamily: "Times New Roman"),
                   textAlign: TextAlign.center,
@@ -47,7 +42,7 @@ class _AccueilPage extends State<AccueilPage> {
                   height: 130,
                 ),
                 const Text(
-                  "Connecter en tant que:",
+                  "Connecter vous en tant que:",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
@@ -57,7 +52,7 @@ class _AccueilPage extends State<AccueilPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 50,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -65,30 +60,30 @@ class _AccueilPage extends State<AccueilPage> {
                     ElevatedButton(
                       onPressed: () {},
                       style: const ButtonStyle(
-                        fixedSize: MaterialStatePropertyAll(Size(250, 40)),
+                        fixedSize: MaterialStatePropertyAll(
+                          Size(250, 40),
+                        ),
                         backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 201, 70, 111)),
+                          Color.fromARGB(255, 203, 97, 129),
+                        ),
                       ),
                       child: const Text(
-                        "professeur", 
+                        "Professeur",
                         style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black,
-                          fontFamily: "Arial"
-                        ),
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontFamily: "Arial"),
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                       style: const ButtonStyle(
                         fixedSize: MaterialStatePropertyAll(Size(250, 40)),
                         backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 201, 70, 111)),
+                            Color.fromARGB(255, 203, 97, 129)),
                       ),
                       child: const Text(
                         "Administrateur",
@@ -99,18 +94,21 @@ class _AccueilPage extends State<AccueilPage> {
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 20,
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => const ConnexionDelegue()));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ConnexionDelegue(),
+                          ),
+                        );
                       },
                       style: const ButtonStyle(
                         fixedSize: MaterialStatePropertyAll(Size(250, 40)),
-                        
                         backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 201, 70, 111)),
+                          Color.fromARGB(255, 203, 97, 129),
+                        ),
                       ),
                       child: const Text(
                         "Etudiant",
@@ -122,9 +120,11 @@ class _AccueilPage extends State<AccueilPage> {
                     ),
                   ],
                 ),
-              ]),
-        ],
+              ],
+            ),
+          ),
+        ),
       ),
-    )));
+    );
   }
 }
