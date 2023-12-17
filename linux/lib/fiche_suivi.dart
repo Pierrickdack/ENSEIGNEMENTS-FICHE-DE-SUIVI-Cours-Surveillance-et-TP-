@@ -1,11 +1,8 @@
-import 'dart:ffi';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'package:signature/signature.dart';
-
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 //import 'package:flutter/cupertino.dart';
 
 class FicheSuivi extends StatefulWidget {
@@ -59,7 +56,35 @@ class _FicheSuivi extends State<FicheSuivi> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 2, 53, 95),
+          actions: [
+            IconButton(
+              onPressed: () {
+                /*final pdf = pw.Document();
+                pdf.addPage(
+                  pw.Page(
+                    build: (context) {
+                      return pw.Center(
+                        child: pw.Column(
+                          children: [
+                            pw.Text("Fiche de suivi Numero"),
+                            pw.Text("Date du jour: $date"),
+                            pw.Text("Unité d'enseignement $code"),
+                            pw.Text("Libelé du cours: $cours",
+                                style: const pw.TextStyle()),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );*/
+              },
+              icon: const Icon(
+                Icons.upload,
+                color: Colors.white,
+              ),
+            ),
+          ],
+          /*backgroundColor: const Color.fromARGB(255, 2, 53, 95),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -67,16 +92,7 @@ class _FicheSuivi extends State<FicheSuivi> {
             },
           ),
           title: const Text("FICHE DE SUIVI"),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.upload,
-                color: Colors.white,
-              ),
-            )
-          ],
+          centerTitle: true,*/
         ),
         body: Container(
           padding: const EdgeInsets.all(25.0),
@@ -94,7 +110,7 @@ class _FicheSuivi extends State<FicheSuivi> {
               TextField(
                 controller: cour,
                 decoration: const InputDecoration(
-                  labelText: "libelé du cours",
+                  labelText: "Libelé du cours",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(50.0),

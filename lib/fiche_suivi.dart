@@ -59,6 +59,9 @@ class _FicheSuivi extends State<FicheSuivi> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.upload))
+          ],
           backgroundColor: const Color.fromARGB(255, 2, 53, 95),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -555,19 +558,30 @@ class _FicheSuivi extends State<FicheSuivi> {
                   )
                 ],
               ),
-
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    cours = cour.text;
-                    code = cod.text;
-                    professeur = prof.text;
-                    content = contenu.text;
-                    titreseance = title.text;
-                    salle = sal.text;
-                  },
-                  child: const Text("valider"),
-                ),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      cours = cour.text;
+                      code = cod.text;
+                      professeur = prof.text;
+                      content = contenu.text;
+                      titreseance = title.text;
+                      salle = sal.text;
+                    },
+                    child: const Text("Valider"),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        cour.clear();
+                        cod.clear();
+                        prof.clear();
+                        contenu.clear();
+                        title.clear();
+                        sal.clear();
+                      },
+                      child: const Text("Clear"))
+                ],
               ),
             ],
           ),
