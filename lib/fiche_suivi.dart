@@ -1,12 +1,18 @@
 import 'dart:ffi';
 import 'dart:typed_data';
-
+import 'package:firstapp/accueil_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:signature/signature.dart';
-
-//import 'package:flutter/cupertino.dart';
+import 'package:firstapp/pagepdf.dart';
+import 'dart:typed_data';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FicheSuivi extends StatefulWidget {
   const FicheSuivi({super.key});
@@ -44,13 +50,12 @@ class _FicheSuivi extends State<FicheSuivi> {
   String content = "";
   TimeOfDay timedebut = TimeOfDay.now();
   TimeOfDay timefin = TimeOfDay.now();
-  TimeOfDay timetotal = TimeOfDay.now();
-  String? nature;
-  int? semestre;
+  String nature = "";
+  int semestre = 0;
   DateTime date = DateTime.now();
   String salle = "";
   String titreseance = '';
-  String total = "Total d'heure de cours";
+  TimeOfDay total = TimeOfDay.now();
 
   @override
   Widget build(context) {
@@ -60,7 +65,44 @@ class _FicheSuivi extends State<FicheSuivi> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.upload))
+            IconButton(
+              onPressed: () async {
+                getExternalStorageDirectory();
+                final pdf = pw.Document();
+                pdf.addPage(
+                  pw.Page(
+                    build: (context) {
+                      return pw.Center(
+                        child: pw.Row(
+                          children: [
+                            pw.Column(children: [
+                              pw.Text("entete de l'universite"),
+                              //pw.Image(Image(image: AssetImage,)),
+                              pw.Text("entete de l'autre")
+                            ]),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+
+                //le chemin d'accès de stackage du pdf
+                final dossierAcces = await getApplicationCacheDirectory();
+                final chemin = dossierAcces.path;
+                final cheminPers = '$chemin/ictfollow';
+                final dossierPers = Directory(cheminPers);
+                if (!dossierPers.existsSync()) {
+                  dossierPers.createSync();
+                }
+
+                final file = File('$cheminPers/fiche.pdf');
+                await file.writeAsBytes(
+                  await pdf.save(),
+                );
+              },
+              icon: const Icon(Icons.upload),
+            )
           ],
           backgroundColor: const Color.fromARGB(255, 2, 53, 95),
           leading: IconButton(
@@ -73,6 +115,7 @@ class _FicheSuivi extends State<FicheSuivi> {
           centerTitle: true,
         ),
         body: Container(
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(25.0),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [
@@ -170,6 +213,11 @@ class _FicheSuivi extends State<FicheSuivi> {
                       ),
                       const SizedBox(height: 10),
                       ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color.fromARGB(255, 2, 53, 95),
+                          ),
+                        ),
                         onPressed: () {
                           showTimePicker(
                             context: context,
@@ -212,6 +260,11 @@ class _FicheSuivi extends State<FicheSuivi> {
                       ),
                       const SizedBox(height: 10),
                       ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color.fromARGB(255, 2, 53, 95),
+                          ),
+                        ),
                         onPressed: () {
                           showTimePicker(
                             context: context,
@@ -222,7 +275,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                                   value.hour < timedebut.hour ||
                                   (value.hour == timedebut.hour &&
                                       value.minute < timedebut.minute)) {
-                                timefin = TimeOfDay.now();
+                                timefin = timedebut;
                                 setState(
                                   () {
                                     data =
@@ -234,6 +287,16 @@ class _FicheSuivi extends State<FicheSuivi> {
                                   () {
                                     data = "";
                                     timefin = value;
+                                    int totaldebut =
+                                        timedebut.hour * 60 + timedebut.minute;
+                                    int totalfin =
+                                        timefin.hour * 60 + timefin.minute;
+                                    int result = totalfin - totaldebut;
+                                    TimeOfDay remplace = TimeOfDay(
+                                        hour: (result - (result % 60)) ~/ 60,
+                                        minute: result % 60);
+
+                                    total = remplace;
                                   },
                                 );
                               }
@@ -242,7 +305,9 @@ class _FicheSuivi extends State<FicheSuivi> {
                         },
                         child: const Text(
                           "Heure de fin",
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ],
@@ -262,30 +327,31 @@ class _FicheSuivi extends State<FicheSuivi> {
                   ),
                 ),
               ),
-              SizedBox(
-                child: Row(
-                  children: [
-                    Text(
-                      total,
-                      style: const TextStyle(fontSize: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        width: 3,
+                        color: const Color.fromARGB(255, 2, 53, 95),
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          int totaldebut =
-                              timedebut.hour * 60 + timedebut.minute;
-                          int totalfin = timefin.hour * 60 + timefin.minute;
-                          int result = totalfin - totaldebut;
-                          timetotal.replacing(
-                              hour: ((result - result % 60) ~/ 60).toInt(),
-                              minute: result % 60);
-                          total = timetotal.format(context);
-                        });
-                      },
-                      child: const Text("calculer"),
-                    )
-                  ],
-                ),
+                    child: Text(
+                      "Durée: ${total.format(context)}",
+                      style: const TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -298,6 +364,11 @@ class _FicheSuivi extends State<FicheSuivi> {
                     width: 10,
                   ),
                   ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 2, 53, 95),
+                      ),
+                    ),
                     onPressed: () {
                       showDatePicker(
                         context: context,
@@ -314,7 +385,10 @@ class _FicheSuivi extends State<FicheSuivi> {
                         }
                       });
                     },
-                    child: const Text('Date'),
+                    child: const Text(
+                      'Date',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   )
                 ],
               ),
@@ -329,7 +403,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       onChanged: (value) {
                         setState(() {
                           activate();
-                          semestre = value;
+                          semestre = value!;
                         });
                       }),
                   const Text("semestre 1"),
@@ -340,7 +414,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       onChanged: (value) {
                         setState(() {
                           activate();
-                          semestre = value;
+                          semestre = value!;
                         });
                       }),
                   const Text("semestre 2"),
@@ -357,7 +431,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       setState(
                         () {
                           activate();
-                          nature = value;
+                          nature = value!;
                         },
                       );
                     },
@@ -371,7 +445,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       setState(
                         () {
                           activate();
-                          nature = value;
+                          nature = value!;
                         },
                       );
                     },
@@ -385,7 +459,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       setState(
                         () {
                           activate();
-                          nature = value;
+                          nature = value!;
                         },
                       );
                     },
@@ -464,12 +538,13 @@ class _FicheSuivi extends State<FicheSuivi> {
                         },
                         style: const ButtonStyle(
                           alignment: Alignment.center,
-                          shape:
-                              MaterialStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
                             ),
-                          )),
+                          ),
                           backgroundColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 138, 241, 141),
                           ),
@@ -558,34 +633,141 @@ class _FicheSuivi extends State<FicheSuivi> {
                   )
                 ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      cours = cour.text;
-                      code = cod.text;
-                      professeur = prof.text;
-                      content = contenu.text;
-                      titreseance = title.text;
-                      salle = sal.text;
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green)),
+                    onPressed: () async {
+                      if (cour.text.isEmpty ||
+                          prof.text.isEmpty ||
+                          cod.text.isEmpty ||
+                          title.text.isEmpty ||
+                          sal.text.isEmpty ||
+                          (total.hour == 00 && total.minute == 00) ||
+                          nature == "" ||
+                          semestre == 0 ||
+                          contenu.text.isEmpty ||
+                          signatureControllerP.isEmpty ||
+                          signatureControllerD.isEmpty) {
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: const Text(
+                                  "Alerte",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                                content: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Vous ne pouvez pas enregistrer cette fiche il manque une information",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.green)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "OK",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      } else {
+                        cours = cour.text;
+                        professeur = prof.text;
+                        code = cod.text;
+                        titreseance = title.text;
+                        salle = sal.text;
+                        content = contenu.text;
+                        signD = await signatureControllerD.toPngBytes();
+                        signP = await signatureControllerP.toPngBytes();
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => PagePdf(
+                                cours: cours,
+                                prof: professeur,
+                                code: code,
+                                titre: titreseance,
+                                salle: salle,
+                                heuredebut: timedebut,
+                                heurefin: timefin,
+                                duree: total,
+                                date: date,
+                                semestre: semestre,
+                                nature: nature,
+                                contenu: content,
+                                signP: signP!,
+                                signD: signD!),
+                          ),
+                        );
+                      }
                     },
-                    child: const Text("Valider"),
+                    child: const Text(
+                      "Valider",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red)),
                       onPressed: () {
-                        cour.clear();
-                        cod.clear();
-                        prof.clear();
-                        contenu.clear();
-                        title.clear();
-                        sal.clear();
+                        setState(() {
+                          cour.clear();
+                          cod.clear();
+                          prof.clear();
+                          contenu.clear();
+                          title.clear();
+                          sal.clear();
+                          data = "";
+                          timedebut = TimeOfDay.now();
+                          timefin = TimeOfDay.now();
+                          total = const TimeOfDay(hour: 00, minute: 00);
+                          date = DateTime.now();
+                          semestre = 0;
+                          nature = "";
+                          contenu.clear();
+                          signatureControllerP.clear();
+                          signatureControllerD.clear();
+                        });
                       },
-                      child: const Text("Clear"))
+                      child: const Text(
+                        "Clear",
+                        style: TextStyle(fontSize: 18),
+                      ))
                 ],
               ),
             ],
           ),
         ),
+        //bottomNavigationBar: ,
       ),
     );
   }

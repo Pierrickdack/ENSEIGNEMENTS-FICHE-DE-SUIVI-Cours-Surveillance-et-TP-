@@ -45,119 +45,124 @@ class _ConnexionDelegue extends State<ConnexionDelegue> {
           child: Container(
             padding: const EdgeInsets.symmetric(),
             margin: const EdgeInsets.all(40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+            child: ListView(
               children: [
-                const Text(
-                  "CONNEXION",
-                  style: TextStyle(fontSize: 40, color: Colors.black),
-                ),
-                const SizedBox(
-                  height: 100,
-                ),
-                SizedBox(
-                  height: 20,
-                  width: 5,
-                  child: Text(
-                    errroeText,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ),
-                TextField(
-                  controller: nom,
-                  decoration: const InputDecoration(
-                    label: Text(
-                      "nom et prenom",
-                      style: TextStyle(
-                        color: Colors.black,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const Text(
+                      "CONNEXION",
+                      style: TextStyle(fontSize: 40, color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    SizedBox(
+                      height: 20,
+                      width: 5,
+                      child: Text(
+                        errroeText,
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextField(
-                  controller: matricule,
-                  decoration: const InputDecoration(
-                    label: Text(
-                      "matricule",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextField(
-                  controller: code,
-                  decoration: const InputDecoration(
-                    label: Text(
-                      "code",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 128, 130, 132),
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Mot de passe oublié ?",
-                    style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (nom.text.isEmpty ||
-                        code.text.isEmpty ||
-                        matricule.text.isEmpty) {
-                      errroeText =
-                          "Vous devez remplir tous les champs avant soumission";
-                    } else {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const DashboardDelegue(),
+                    TextField(
+                      controller: nom,
+                      decoration: const InputDecoration(
+                        label: Text(
+                          "nom et prenom",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
-                      );
-                    }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        const Color.fromARGB(255, 2, 53, 95)),
-                  ),
-                  child: const Text(
-                    "Se connecter",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: matricule,
+                      decoration: const InputDecoration(
+                        label: Text(
+                          "matricule",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: code,
+                      decoration: const InputDecoration(
+                        label: Text(
+                          "code",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 128, 130, 132),
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Mot de passe oublié ?",
+                        style: TextStyle(
+                            fontSize: 20, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (nom.text.isEmpty ||
+                            code.text.isEmpty ||
+                            matricule.text.isEmpty) {
+                          errroeText =
+                              "Vous devez remplir tous les champs avant soumission";
+                        } else {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const DashboardDelegue(),
+                            ),
+                          );
+                        }
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            const Color.fromARGB(255, 2, 53, 95)),
+                      ),
+                      child: const Text(
+                        "Se connecter",
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
