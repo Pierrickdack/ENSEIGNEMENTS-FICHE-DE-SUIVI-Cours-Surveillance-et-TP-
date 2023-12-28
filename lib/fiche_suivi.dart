@@ -69,6 +69,11 @@ class _FicheSuivi extends State<FicheSuivi> {
               onPressed: () async {
                 getExternalStorageDirectory();
                 final pdf = pw.Document();
+
+                final fontData =
+                    await File('path/to/your/font.ttf').readAsBytes();
+                final ttfFont =
+                    pw.Font.ttf(Uint8List.fromList(fontData) as ByteData);
                 pdf.addPage(
                   pw.Page(
                     build: (context) {
@@ -76,9 +81,18 @@ class _FicheSuivi extends State<FicheSuivi> {
                         child: pw.Row(
                           children: [
                             pw.Column(children: [
-                              pw.Text("entete de l'universite"),
-                              //pw.Image(Image(image: AssetImage,)),
-                              pw.Text("entete de l'autre")
+                              pw.Text(
+                                "entete de l'universite",
+                                style: pw.TextStyle(font: ttfFont),
+                              ),
+                              pw.Text(
+                                "suite entete",
+                                style: pw.TextStyle(font: ttfFont),
+                              ),
+                              pw.Text(
+                                "fin de l'entete",
+                                style: pw.TextStyle(font: ttfFont),
+                              )
                             ]),
                           ],
                         ),
