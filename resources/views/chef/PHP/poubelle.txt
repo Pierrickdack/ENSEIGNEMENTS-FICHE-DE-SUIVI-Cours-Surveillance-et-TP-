@@ -1,0 +1,68 @@
+
+		/*print_r($resultat[0][0]);
+		print_r($resultat[0][1]);*/
+		/*if( isset($_GET['submit'])){
+			$id=$_GET['id'];
+			$pas=$_GET['pas'];
+			if($id==$resultat[0][0] AND $pas==$resultat[0][0]){
+				echo '<script>document.querySelector("button").type="button;</script>';
+			}
+			//echo '<script>alert("Connexion failed");</script>';
+			//document.querySelector("button").type="button"
+		}*/
+
+        
+
+/*<?php
+		$server="localhost";
+		$pass="";
+		$login="root";
+		try{
+			$connexion=new PDO("mysql:host=$server;dbname=ict201",$login,$pass);
+			$connexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$request=$connexion -> prepare("SELECT * FROM `chef`");
+			$request -> execute();
+			$resultat=$request -> fetchall();
+			if(isset($_GET['submit'])){
+				$id=$_GET['id'];
+				$pas=$_GET['pas'];
+				if ($id==$resultat[0][0] && $pas==$resultat[0][1]) {
+					# code...
+				}
+			}
+		}
+		catch(PDOException $e){
+			echo "Connexion failed";
+		}
+	?>*/
+
+    <?php
+				$server="localhost";
+				$pass="";
+				$login="root";
+				$bool=1;
+				try{
+					$connexion=new PDO("mysql:host=$server;dbname=ict201",$login,$pass);
+					$connexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$request=$connexion -> prepare("SELECT * FROM `delegue`");
+					$request -> execute();
+					$resultat=$request -> fetchall();
+					$id=$_POST['id'];
+					session_start();  
+					$_SESSION["id"] = $id;
+					if(isset($_POST['submit'])){
+						$pas=$_POST['pas'];
+						for ($i=0; $i < count($resultat) ; $i++) {
+							if (strcasecmp($id,$resultat[$i][0])==0 && $pas==$resultat[$i][3]) {
+								header('Location:accueil.php');
+								$bool=0;
+								break;
+							}
+						}
+						if($bool==1){echo "<br><br><p style='color:red;'>Veuillez verifier vos entres.</p>";}
+					}
+				}
+				catch(PDOException $e){
+					echo "Connexion failed";
+				}
+			?>

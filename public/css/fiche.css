@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+:root {
+    --primary-color: #3498db; /* Bleu */
+    --secondary-color: #2ecc71; /* Vert émeraude */
+    --accent-color: #e74c3c; /* Rouge corail */
+    --background-color: #27566e; /* Gris clair */
+    --text-color: #34495e; /* Gris foncé pour le texte principal */
+    --border-color: #bdc3c7; /* Gris clair pour les bordures */
+    --clr: #14161e;
+    --cfmt: #2ecc71; /* vert émeraude */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: var(--clr);
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.returnButton {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    z-index: 1000;
+    border: none;
+}
+
+.returnButton i {
+    font-size: 1.5em;
+    color: white;
+}
+
+
+
+
+/* Ajoutez ce CSS pour le modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Style des boutons du modal */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Bouton Confirmer en vert */
+button.confirm-btn {
+    background-color: var(--cfmt); /* Vert émeraude */
+    color: white;
+    border: 1px solid var(--cfmt);
+}
+
+/* Bouton Annuler en rouge */
+button.cancel-btn {
+    background-color: #e74c3c; /* Rouge corail */
+    color: white;
+    border: 1px solid var(--accent-color);
+}
+
+button.confirm-btn:hover {
+    background-color: transparent;
+    border: 1px solid var(--cfmt);
+    color: black;
+}
+
+button.cancel-btn:hover {
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: black;
+}
+
+
+h1 {
+    color: #3498db;
+    font-size: 12px;
+}
+
+h2 {
+    color: #3498db;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+}
+
+.logo img {
+    max-width: 60px;
+    height: auto;
+}
+
+.form-container {
+    width: 70%;
+    max-width: 700px; /* Ajustez la largeur maximale selon vos besoins */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    box-sizing: border-box;
+    color: #14161e;
+    margin: 0 auto; /* Ajoutez cette ligne pour centrer horizontalement */
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 15px;
+    box-sizing: border-box;
+}
+
+.form-sign {
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-sign-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #2c3e50;
+}
+
+#annulerBtn {
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    border: 1px solid transparent;
+}
+
+#annulerBtn:hover {
+    background-color: transparent;
+    color: black;
+    border: 1px solid red;
+}
+
+#enregistrerBtn {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.signature-box {
+    width: 300px; /* Ajustez la largeur selon vos besoins */
+    height: 150px; /* Ajustez la hauteur selon vos besoins */
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.signature-box canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Ajoutez cette règle pour centrer les cadres des signatures */
+@media only screen and (max-width: 910px) {
+    .form-sign-row {
+        flex-direction: column;
+        align-items: center; /* Centrer horizontalement les cadres des signatures */
+    }
+    .form-sign {
+        width: 100%;
+        margin-bottom: 15px;
+        text-align: center; /* Centrer le texte à l'intérieur du cadre */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centrer verticalement le contenu du cadre */
+    }
+    .signature-box {
+        margin: 0 auto; /* Centrer horizontalement le cadre des signatures */
+    }
+}
+
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Ajustez la largeur selon vos besoins */
+    height: 20px; /* Ajustez la hauteur selon vos besoins */
+    margin-left: 40px;
+    margin-right: 10px; /* Ajout d'une marge pour l'espacement du texte */
+}
+  /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+  /* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; /* Ajustez la taille du cercle blanc selon vos besoins */
+    width: 14px; /* Ajustez la taille du cercle blanc selon vos besoins */
+    left: 1px;
+    bottom: 3px; /* Ajustez la position verticale selon vos besoins */
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+  /* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Ajoutez cette classe au texte pour ajuster la taille */
+.toggle-text {
+    font-size: 14px; /* Ajustez la taille selon vos besoins */
+    margin-left: 20px; /* Ajout d'une marge entre le texte et le switch */
+}

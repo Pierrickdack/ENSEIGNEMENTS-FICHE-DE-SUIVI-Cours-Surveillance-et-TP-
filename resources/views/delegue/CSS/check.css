@@ -1,0 +1,54 @@
+
+
+h1{
+  text-align: center;
+}
+button{
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.mise-en-page{
+  display: flex;
+  text-align: center;
+}
+h2{
+  overflow: hidden;
+}
+#canvas{
+  min-width:350px;
+  width: 30%;
+  height: 30%;
+  min-height: 275px;
+  border:1px solid #000;
+  margin-top: 2%;
+}
+#capture{ 
+  border:1px solid grey;
+  width:200px;
+  height:150px;
+  margin: auto;
+  margin-top: 2%;
+  overflow: hidden;
+}
+.D1 , .D2{
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+.D2{
+  margin-top: 3.5%;
+  display: none;
+}
+
+@media screen and (max-width:999px){
+  *{
+    overflow-y: visible;
+  }
+  .mise-en-page{
+    flex-direction: column;
+  }
+  .D2{
+    margin-top: 0%;
+  }
+}
