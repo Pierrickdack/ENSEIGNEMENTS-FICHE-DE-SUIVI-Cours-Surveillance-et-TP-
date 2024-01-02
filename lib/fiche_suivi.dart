@@ -66,55 +66,7 @@ class _FicheSuivi extends State<FicheSuivi> {
         appBar: AppBar(
           actions: [
             IconButton(
-              onPressed: () async {
-                getExternalStorageDirectory();
-                final pdf = pw.Document();
-
-                final fontData =
-                    await File('path/to/your/font.ttf').readAsBytes();
-                final ttfFont =
-                    pw.Font.ttf(Uint8List.fromList(fontData) as ByteData);
-                pdf.addPage(
-                  pw.Page(
-                    build: (context) {
-                      return pw.Center(
-                        child: pw.Row(
-                          children: [
-                            pw.Column(children: [
-                              pw.Text(
-                                "entete de l'universite",
-                                style: pw.TextStyle(font: ttfFont),
-                              ),
-                              pw.Text(
-                                "suite entete",
-                                style: pw.TextStyle(font: ttfFont),
-                              ),
-                              pw.Text(
-                                "fin de l'entete",
-                                style: pw.TextStyle(font: ttfFont),
-                              )
-                            ]),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-
-                //le chemin d'accès de stackage du pdf
-                final dossierAcces = await getApplicationCacheDirectory();
-                final chemin = dossierAcces.path;
-                final cheminPers = '$chemin/ictfollow';
-                final dossierPers = Directory(cheminPers);
-                if (!dossierPers.existsSync()) {
-                  dossierPers.createSync();
-                }
-
-                final file = File('$cheminPers/fiche.pdf');
-                await file.writeAsBytes(
-                  await pdf.save(),
-                );
-              },
+              onPressed: () async {},
               icon: const Icon(Icons.upload),
             )
           ],
@@ -710,6 +662,22 @@ class _FicheSuivi extends State<FicheSuivi> {
                               );
                             });
                       } else {
+                        //creation du pdf et enregistrement dans le telephone
+                        getExternalStorageDirectory();
+                        try {
+                          final dossierAcces =
+                              await getApplicationDocumentsDirectory();
+                          final chemin = dossierAcces.path;
+                          final cheminPers = '$chemin/ictfollow';
+                          final dossierPers = Directory(cheminPers);
+                          if (!dossierPers.existsSync()) {
+                            dossierPers.createSync();
+                            print("Le dossier a été crée avec succès");
+                          }
+                        } catch (Exe) {
+                          print(Exe.toString());
+                          print("le dossier existe deja ");
+                        }
                         cours = cour.text;
                         professeur = prof.text;
                         code = cod.text;
