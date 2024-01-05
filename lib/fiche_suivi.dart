@@ -500,7 +500,7 @@ class _FicheSuivi extends State<FicheSuivi> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          signP = await signatureControllerD.toPngBytes();
+                          signP = await signatureControllerP.toPngBytes();
                         },
                         style: const ButtonStyle(
                           alignment: Alignment.center,
