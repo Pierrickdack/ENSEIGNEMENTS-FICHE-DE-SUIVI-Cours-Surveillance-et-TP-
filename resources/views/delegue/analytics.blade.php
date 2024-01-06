@@ -15,37 +15,41 @@
             <thead>
                 <tr>
                     <th>N°</th>
-                    <th>Nom</th>
                     <th>Date</th>
-                    <th>Voir</th>
-                    <th>Modifier</th>
-                    <th>Supprimer</th>
+                    <th>Titre séance</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <a href="" class="action-icons eye-icon"><i class="fas fa-eye"></i></a>
-                    </td>
-                    <td>
-                        <a href="" class="action-icons pencil-icon"><i class="fas fa-pencil-alt"></i></a>
-                    </td>
-                    <td>
-                        <form action="" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="action-icons trash-icon"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6">Aucune fiche disponible</td>
-                </tr>
-
+            <tbody>
+                @forelse ($fiches as $fiche)
+                    <tr>
+                        <td>{{ $fiche->id }}</td>
+                        <td>{{ $fiche->date }}</td>
+                        <td>{{ $fiche->titreSeance }}</td>
+                        <td class="action-buttons">
+                            <button class="action-button" onclick="window.location.href=' '">
+                                <i class="fas fa-eye"></i> Voir
+                            </button>
+                            <button class="action-button" onclick="window.location.href=' '">
+                                <i class="fas fa-pencil-alt"></i> Modifier
+                            </button>
+                            <form action="{{ route('fiche.destroy', $fiche->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="action-button">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">Aucune fiche disponible</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
+
     </div>
 @endsection
+

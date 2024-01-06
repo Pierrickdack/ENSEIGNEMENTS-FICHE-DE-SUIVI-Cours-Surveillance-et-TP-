@@ -53,21 +53,20 @@ Route::get('/delegue', [DelegueController::class, 'index'])->name('delegue');
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 
+// Route::get('/analytics', [FicheController::class, 'index'])->name('analytics');
+// routes/web.php
 
 
 
+
+
+// Route::get('/analytics', [FicheController::class, 'index']);
 // Route pour afficher toutes les fiches
 Route::get('/fiches', [FicheController::class, 'showFiches'])->name('fiches.index');
 
-// Route pour afficher une fiche spécifique
-Route::get('/fiches/{fiche}', [FicheController::class, 'showFiche'])->name('fiches.show');
-
-// Route pour afficher le formulaire de modification d'une fiche
-Route::get('/fiches/{fiche}/edit', [FicheController::class, 'editFiche'])->name('fiches.edit');
-
-// Route pour mettre à jour une fiche après modification
-Route::put('/fiches/{fiche}', [FicheController::class, 'updateFiche'])->name('fiches.update');
-
 // Route pour supprimer une fiche
-Route::delete('/fiches/{fiche}', [FicheController::class, 'destroyFiche'])->name('fiches.destroy');
+//Route::delete('/fiches/{fiche}', [FicheController::class, 'destroyFiche'])->name('fiches.destroy');
+
+Route::delete('/fiches/{fiche}', [AnalyticsController::class, 'destroy'])->name('fiche.destroy');
+
 
